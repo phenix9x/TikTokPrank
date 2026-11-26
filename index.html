@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>СИМУЛЯЦИЯ — СИСТЕМА ПОВРЕЖДЕНА</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070000;color:#ff3030;font-family:Consolas,monospace;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,#ff000008 4px 5px);z-index:3}
+main{max-width:850px;margin:7vh auto;padding:24px;border:1px solid #a00;box-shadow:0 0 35px #f0003a55;background:#100303}
+.tag{color:#ff8b8b;border:1px solid #900;padding:6px 9px;display:inline-block;font-size:12px}
+h1{font-size:clamp(27px,6vw,52px);text-shadow:3px 0 #700,-3px 0 #f00;animation:flicker 1.8s infinite}
+@keyframes flicker{0%,92%,96%,100%{opacity:1}94%{opacity:.35}}
+.warning{background:#4b0000;padding:15px;border-left:5px solid red;color:#fff}
+.track{height:17px;background:#310000;border:1px solid #a00;margin:20px 0;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#a00,#ff4545);transition:width .2s}
+button{background:#b00016;color:white;border:1px solid #ff7777;padding:13px 18px;font:bold 15px Consolas;cursor:pointer;margin:7px 7px 7px 0}
+button:hover{background:#f00}.log{height:170px;overflow:auto;background:#050000;border:1px solid #650000;padding:12px;color:#ff7777;font-size:13px;line-height:1.6}
+.small{font-size:12px;color:#b77}.status{font-size:19px;margin-top:10px}.safe{color:#8dff9d}
+.glitch{animation:shake .12s infinite alternate}@keyframes shake{from{transform:translateX(-1px)}to{transform:translateX(1px)}}
+</style>
+</head>
+<body>
+<main>
+<span class="tag">ДЕМОНСТРАЦИОННЫЙ РЕЖИМ · БЕЗОПАСНО</span>
+<h1 class="glitch">⚠ СИСТЕМА ПОВРЕЖДЕНА</h1>
+<div class="warning">ОБНАРУЖЕНА УГРОЗА. Выполняется демонстрационная проверка интерфейса.</div>
+<div class="status" id="status">Ожидание запуска…</div>
+<div class="track"><div class="fill" id="fill"></div></div>
+<div id="percent">0%</div>
+<p class="small">Журнал событий:</p>
+<div class="log" id="log">[SYSTEM] Симулятор загружен.<br>[INFO] Реальных изменений на устройстве нет.</div>
+<button id="start">ЗАПУСТИТЬ СИМУЛЯЦИЮ</button>
+<button id="clean">ОЧИСТИТЬ ЭКРАН</button>
+<p class="small safe">Это только визуальный розыгрыш. Сайт не заражает устройство, не читает файлы и не отправляет данные.</p>
+</main>
+<script>
+const fill=document.getElementById('fill'),percent=document.getElementById('percent'),status=document.getElementById('status'),log=document.getElementById('log');
+let timer=null;
+const messages=['Проверка виртуальной памяти…','Поиск подозрительных процессов…','Анализ системных модулей…','Проверка сетевых соединений…','Создание отчёта…','Симуляция завершена. Реальных угроз не обнаружено.'];
+function add(s){log.innerHTML+=' <br>[SIM] '+s;log.scrollTop=log.scrollHeight}
+document.getElementById('start').onclick=()=>{
+ if(timer)clearInterval(timer);let n=0;fill.style.width='0%';percent.textContent='0%';status.textContent='Идёт фальшивое сканирование…';add('Запущена безопасная демонстрация.');
+ timer=setInterval(()=>{n=Math.min(100,n+Math.ceil(Math.random()*5));fill.style.width=n+'%';percent.textContent=n+'%';if(n%20<6)add(messages[Math.min(5,Math.floor(n/20))]);if(n>=100){clearInterval(timer);timer=null;status.innerHTML='<span class="safe">✓ СИМУЛЯЦИЯ ЗАВЕРШЕНА — УСТРОЙСТВО НЕ ЗАРАЖЕНО</span>';add('Готово. Это был только визуальный эффект.')}},220);
+};
+document.getElementById('clean').onclick=()=>{if(timer)clearInterval(timer);timer=null;fill.style.width='0%';percent.textContent='0%';status.textContent='Экран очищен.';log.innerHTML='[SYSTEM] Демонстрация сброшена.'};
+</script>
+</body></html>
